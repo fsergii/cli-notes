@@ -1,21 +1,29 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"log"
+)
 
-var id = 0
+var id uint
+
+type Record struct {
+	Note string
+	id   uint
+}
 
 func main() {
 
+	log.SetFlags(0)
+
 	var userInput string
-	type Record struct {
-		Note string
-		id   int
-	}
+
 	var notes = make([]Record, 0)
 
 	for {
 		fmt.Printf("Enter your note:\n")
-		fmt.Scan(&userInput)
+		fmt.Scanln(&userInput)
 
 		switch userInput {
 		case "/l":
@@ -26,16 +34,31 @@ func main() {
 		case "/q":
 			break
 		default:
-			id = id + 1
+			note, err := createRecord(userInput)
 
-			newRecord := Record{
-				Note: userInput,
-				id:   id,
+			if err != nil {
+				log.Println(err)
 			}
 
-			notes = append(notes, newRecord)
-		}
+			notes = append(notes, note)
 
+		}
 	}
+}
+
+func createRecord(userInput string) (Record, error) {
+
+	if userInput == "" {
+		return Record{}, errors.New("empty record")
+	}
+
+	id = id + 1
+
+	newRecord := Record{
+		Note: userInput,
+		id:   id,
+	}
+
+	return newRecord, nil
 
 }
