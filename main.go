@@ -38,6 +38,7 @@ func main() {
 
 			if err != nil {
 				log.Println(err)
+				continue
 			}
 
 			notes = append(notes, note)
