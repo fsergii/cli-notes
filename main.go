@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cli-notes/greetings"
 	"errors"
 	"fmt"
 	"log"
@@ -22,7 +23,9 @@ func main() {
 	var notes = make([]Record, 0)
 
 	for {
-		fmt.Printf("Enter your note:\n")
+
+		greetings.PrintHello()
+
 		fmt.Scanln(&userInput)
 
 		switch userInput {
